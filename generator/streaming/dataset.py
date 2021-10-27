@@ -6,10 +6,10 @@ class Purchase():
   user_id: int
   gem_pack_id: int
   price: float
-  event_time_in_nanosecs: int
+  event_time_in_milliseconds: int
 
-  def to_tuple(self):
-    return (self.user_id, self.gem_pack_id, self.price, self.event_time_in_nanosecs)
+  def to_event(self):
+    return f'{self.gem_pack_id},{self.event_time_in_milliseconds},{self.price}\n'
 
 class PurchaseBuilder():
   def __init__(self):
@@ -17,7 +17,7 @@ class PurchaseBuilder():
       user_id=1,
       gem_pack_id=1,
       price=10,
-      event_time_in_nanosecs=time.time_ns()
+      event_time_in_milliseconds=int(time.time_ns()/1e6)
     )
 
   def with_user_id(self, user_id):
@@ -32,8 +32,8 @@ class PurchaseBuilder():
     self.purchase.price = price
     return self
 
-  def with_event_time_in_nanosecs(self, event_time_in_nanosecs):
-    self.purchase.event_time_in_nanosecs = event_time_in_nanosecs
+  def with_event_time_in_milliseconds(self, event_time_in_milliseconds):
+    self.purchase.event_time_in_milliseconds = event_time_in_milliseconds
     return self
 
   def build(self):

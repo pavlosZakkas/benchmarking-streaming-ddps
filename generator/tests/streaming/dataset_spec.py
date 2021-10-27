@@ -14,14 +14,14 @@ class DatasetSpec(unittest.TestCase):
       .with_user_id(self.USER_ID) \
       .with_gem_pack_id(self.GEM_PACK_ID) \
       .with_price(self.PRICE) \
-      .with_event_time_in_nanosecs(self.EVENT_TIME) \
+      .with_event_time_in_milliseconds(self.EVENT_TIME) \
       .build()
 
     # then
     assert purchase.user_id == self.USER_ID
     assert purchase.gem_pack_id == self.GEM_PACK_ID
     assert purchase.price == self.PRICE
-    assert purchase.event_time_in_nanosecs == self.EVENT_TIME
+    assert purchase.event_time_in_milliseconds == self.EVENT_TIME
 
   def should_create_a_tuple_from_a_purchase_object(self):
     # given
@@ -29,11 +29,11 @@ class DatasetSpec(unittest.TestCase):
       user_id=self.USER_ID,
       gem_pack_id=self.GEM_PACK_ID,
       price=self.PRICE,
-      event_time_in_nanosecs=self.EVENT_TIME
+      event_time_in_milliseconds=self.EVENT_TIME
     )
 
     # when
-    purchase_tuple = purchase.to_tuple()
+    purchase_event = purchase.to_event()
 
     # then
-    assert purchase_tuple == (self.USER_ID, self.GEM_PACK_ID, self.PRICE, self.EVENT_TIME)
+    assert purchase_event == f'{self.GEM_PACK_ID},{self.EVENT_TIME},{self.PRICE}\n'

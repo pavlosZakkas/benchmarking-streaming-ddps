@@ -5,19 +5,19 @@ from numpy import random
 from generator.streaming import dataset
 
 GEM_PACK_ID_MEAN = 1000
-GEM_PACK_ID_STD = 2
+GEM_PACK_ID_STD = 1
 PRICE_MEAN = 100
 
 def stream_purchase(connection):
   purchase = dataset.PurchaseBuilder() \
     .with_gem_pack_id(gem_pack_id()) \
     .with_price(random.normal(PRICE_MEAN, 10)) \
-    .with_event_time_in_nanosecs(time.time_ns()) \
+    .with_event_time_in_milliseconds(int(time.time_ns() / 1e6)) \
     .build() \
-    .to_tuple()
+    .to_event()
 
   try:
-    connection.sendall((str(purchase) + '\n').encode())
+    connection.sendall(purchase.encode())
   except Exception as e:
     raise DataStreamingException('Error while publishing to socket', e)
 
@@ -27,7 +27,7 @@ def gem_pack_id():
 def hello_world(connection):
   try:
     connection.sendall('Hello world\n'.encode())
-    print('Sent', time.time_ns())
+    # print('Sent', time.time_ns() / 1e6)
   except Exception as e:
     raise DataStreamingException('Error while publishing to socket', e)
 
