@@ -33,7 +33,8 @@ class ConnectorSpec(unittest.TestCase):
   def should_connect_to_the_given_host_and_port(self, socket_mock):
     self.setup_mock(socket_mock)
 
-    connection = connector.wait_for_connection_to(self.HOST, self.PORT)
+    connection, socket = connector.wait_for_connection_to(self.HOST, self.PORT)
 
     self.SOCKET_MOCK.bind.assert_called_once_with((self.HOST, self.PORT))
+    self.assertEqual(socket, self.SOCKET_MOCK)
     self.assertEqual(connection, self.CONNECTION_MOCK)
