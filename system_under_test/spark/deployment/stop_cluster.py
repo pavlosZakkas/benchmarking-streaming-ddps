@@ -1,5 +1,9 @@
 import os
-import env
+
+if os.environ.get('DEPLOY_ENV') == 'LOCAL':
+  import local_env as env
+else:
+  import das5_env as env
 
 def stop_cluster():
   os.chdir(f'{env.SPARK_HOME}')
