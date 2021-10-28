@@ -6,6 +6,10 @@ class SocketConnectionException(Exception):
 
 
 def wait_for_connection_to(host, port):
+    """
+    Opens a socket at the given host and port, waits for the client
+    system to connect, and returns tha socket connection
+    """
     try:
         stream_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         stream_socket.bind((host, port))

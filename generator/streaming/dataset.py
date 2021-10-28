@@ -3,17 +3,31 @@ import time
 
 
 @dataclass
-class Purchase():
+class Purchase:
+    """
+    Data object for Purchase
+    User id is present in Purchase, but is not needed for our experiments
+    as the aggregation will be done on price, after grouping by the gem pack id.
+    Event time in milliseconds is also added in order to calculate event time latency
+    """
     user_id: int
     gem_pack_id: int
     price: float
     event_time_in_milliseconds: int
 
     def to_event(self):
+        """
+        Creates the event to be sent for the given Purchase
+        """
         return f'{self.gem_pack_id},{self.event_time_in_milliseconds},{self.price}\n'
 
 
-class PurchaseBuilder():
+class PurchaseBuilder:
+    """
+    PurchaseBuilder is an implementation of the Builder Design Pattern for
+    the Purchase object
+    """
+
     def __init__(self):
         self.purchase = Purchase(
             user_id=1,

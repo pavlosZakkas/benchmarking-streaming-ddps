@@ -9,6 +9,9 @@ from generator.start import start
 
 
 def parsed_arguments():
+    """
+    Parses the given user arguments
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument('--messages', help='Number of messages to stream')
     parser.add_argument('--time', help='Time threshold in seconds to stream the messages')
@@ -20,16 +23,18 @@ def parsed_arguments():
 
 
 def start_generator(args):
+    """
+    Triggers the execution of the generator given the parameters from arguments
+    """
     start(
         host=args.host or env.DEFAULT_GENERATOR_HOST,
         port=int(args.port) if args.port else env.DEFAULT_GENERATOR_PORT,
         total_messages=int(args.messages) if args.messages else env.DEFAULT_NUMBER_OF_MESSAGES,
         available_time_in_secs=int(args.time) if args.time else env.DEFAULT_TIME_IN_SECS,
         generators=int(args.generators) if args.generators else env.DEFAULT_NUMBER_OF_GENERATORS,
-        wait_time=int(args.waitTime) if args.waitTime else env.DEFAULT_WAIT_TIME_IN_SECS
+        wait_time_in_secs=int(args.waitTime) if args.waitTime else env.DEFAULT_WAIT_TIME_IN_SECS
     )
 
 
 if __name__ == "__main__":
-    args = parsed_arguments()
-    start_generator(args)
+    start_generator(parsed_arguments())
