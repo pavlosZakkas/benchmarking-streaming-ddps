@@ -11,7 +11,7 @@ parent_dir = os.path.dirname(current_dir)
 
 executable_per_experiment = {
   'aggregationRDD': f'aggregator.PurchaseAggregatorRDD',
-  'aggregation': f'aggregator.PurchaseAggregator',
+  'aggregationLargeWindowRDD': f'aggregator.PurchaseAggregatorLargeWindowRDD',
 }
 
 def parsed_arguments():
@@ -30,7 +30,7 @@ def submit_task(args):
             f'{parent_dir}/target/scala-2.12/spark_2.12-0.1.jar  '
             f'{args.streamHost or env.STREAMER_HOST} '
             f'{args.streamPort or env.STREAMER_POST} '
-            f'{parent_dir}/results/{args.experiment}/event-latency-{datetime.now().strftime("%Y-%m-%d_%H:%M")}'
+            f'{parent_dir}/results/{args.experiment}/event-latency_{datetime.now().strftime("%Y-%m-%d_%H:%M")}/event-latency'
             f' >> {parent_dir}/results/{args.experiment}/processing-latency-{datetime.now().strftime("%Y-%m-%d_%H:%M:%S")}')
 
 if __name__ == "__main__":
